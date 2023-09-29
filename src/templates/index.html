@@ -6,6 +6,26 @@
     <title>Weather App</title>
 </head>
 <body>
-    asdasdasd
+    <div class="content">
+        <div class="navigation">
+            <form>
+                <input type="location" name="location" id="location">
+                <input type="submit" value="search" id="search">
+            </form>
+            <button id="locate">Use location</button>
+        </div>
+        <div class="current" id="current">Current Area</div>
+        <div class="forecast">Forecast Area</div>
+    </div>
+    <div class="hourly-content">
+        <div class="hourly-precipitation">Precipitation</div>
+        <div class="hourly-temperature">Temperature</div>
+    </div>
+    <div class="footer">
+        <a href="https://github.com/vanessapigwin/weather-app-top">
+            <span>vanessapigwin</span>
+            <img src="<%=require('../images/github-mark-white.png')%>" alt="gh-icon">
+        </a>
+    </div>
 </body>
 </html>

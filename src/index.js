@@ -1,4 +1,6 @@
 import "./style.css";
+import Parser from "./parser";
+import { currentCard, forecastCard, hourlyCard } from "./cards";
 
 const urlBuilder = (params) => {
   /*
@@ -18,14 +20,14 @@ const urlBuilder = (params) => {
 
 const callAPI = async (location) => {
   /* 
-  calls WeatherAPI (documentation: https://www.weatherapi.com/docs/) 
-  and returns current and forecast data based on the ff parameters
-  q = location (city, US/UK/CA zipcode, ip address)
-  days = 3 to accomodate API restrictions for free user
-  aqi = air quality index
-  alert = alerts available on weather api
+  Calls WeatherAPI (documentation: https://www.weatherapi.com/docs/) 
+  and returns current and forecast data based on the ff parameters:
+    q = location (city, US/UK/CA zipcode, ip address)
+    days = 3 to accomodate API restrictions for free user
+    aqi = air quality index
+    alert = alerts available on weather api
   input: location
-  output: json or error data
+  output: json if request is accepted or error
   */
   let data;
   const params = {
@@ -37,85 +39,62 @@ const callAPI = async (location) => {
     const request = await fetch(url);
     if (request.status === 200) {
       data = await request.json();
-    }
+    } else throw Error(request.status);
   } catch (e) {
     data = e;
   }
   return data;
 };
 
-const updateLocation = (position) => {
+const updateLocation = async (position) => {
+  /*
+  Success callback for getCurrentPosition
+  input: position emitted by getCurrentPosition
+  output: none 
+  */
   const lat = position.coords.latitude;
   const long = position.coords.longitude;
   const location = `${lat},${long}`;
-  console.log(location);
-  console.log("call api");
-  console.log("update page");
+  const data = await callAPI(location);
+  const parser = Parser(data);
+  currentCard(parser.parseCurrent());
+  forecastCard(parser.parseSummary());
+  hourlyCard(parser.parseHourly("2023-09-29"));
 };
 
-const Parser = (rawData) => {
-  const parseCurrent = () => {
-    const data = rawData.current;
-    const parsed = {
-      datetime: data.last_updated,
-      is_day: data.is_day,
-      icon: data.condition.icon,
-      text: data.condition.text,
-      humidity: data.humidity,
-      uv: data.uv,
-      metric: {
-        temp: data.temp_c,
-        wind: data.wind_kph,
-        precipitation: data.precip_mm,
-        feels: data.feelslike_c,
-      },
-      english: {
-        temp: data.temp_f,
-        wind: data.wind_mph,
-        precipitation: data.precip_in,
-        feels: data.feelslike_f,
-      },
-    };
-    return parsed;
-  };
-
-  const parseSummary = () => {
-    const daySeriesData = rawData.forecast.forecastday;
-    return daySeriesData.map((dayData) => {
-      const data = {
-        date: dayData.date,
-        rain_chance: dayData.day.daily_chance_of_rain,
-        snow_chance: dayData.day.daily_chance_of_snow,
-        icon: dayData.day.condition.icon,
-        text: dayData.day.condition.text,
-        humidity: dayData.day.humidity,
-        uv: dayData.day.uv,
-        metric: {
-          max_temp: dayData.day.maxtemp_c,
-          min_temp: dayData.day.mintemp_c,
-          precipitation: dayData.day.totalprecip_mm,
-        },
-        english: {
-          max_temp: dayData.day.maxtemp_f,
-          min_temp: dayData.day.mintemp_f,
-          precipitation: dayData.day.totalprecip_in,
-        },
-      };
-      return data;
-    });
-  };
-
-  return { parseCurrent, parseSummary };
+const processForm = (e) => {
+  console.log(e);
+  e.preventDefault();
 };
 
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(updateLocation);
-}
+(async () => {
+  // default behavior is to use a specified location
+  // const data = await callAPI("Tokyo");
+  // if (!(data instanceof Error)) {
+  //   const parser = Parser(data);
+  //   const parsedCurrentData = parser.parseCurrent();
+  //   console.log(parsedCurrentData);
+  //   const forecastData = parser.parseSummary();
+  //   console.log(forecastData);
+  //   const hourlyData = parser.parseHourly("2023-09-29");
+  //   console.log(hourlyData);
+  // }
+  document.querySelector("form").addEventListener("submit", processForm);
+  document.querySelector("#locate").addEventListener("click", () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(updateLocation);
+    }
+  });
 
-// use default location on init
-const data = await callAPI("Tokyo");
-const parser = Parser(data);
-const parsedCurrentData = parser.parseCurrent();
-console.log(parsedCurrentData);
-const forecastData = parser.parseSummary();
-console.log(forecastData);
+  const test = {
+    datetime: "2023-09-29 16:00",
+    english: { temp: 82.4, wind: 8.1, precipitation: 0, feels: 86.3 },
+    humidity: 58,
+    icon: "//cdn.weatherapi.com/weather/64x64/day/116.png",
+    is_day: 1,
+    metric: { temp: 28, wind: 13, precipitation: 0, feels: 30.2 },
+    text: "Partly cloudy",
+    uv: 7,
+  };
+  currentCard(test);
+})();

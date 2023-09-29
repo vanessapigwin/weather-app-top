@@ -15,3 +15,4 @@ Live: https://vanessapigwin.github.io/weather-app-top/
 
 ## Newly-learned concepts from Activity
 - using a default template for webpack
+- directly add url of asset to html template

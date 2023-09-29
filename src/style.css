@@ -1,3 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: solid 1px red
+}
+
+/* ------------------------------ LAYOUT -------------------------------*/
+
 body {
-    background-color: aquamarine;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.navigation {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.current,
+.forecast {
+    flex: 1
+}
+
+form {
+    display: flex,
+}
+
+.footer,
+.footer > a {
+    flex: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer > a > img {
+    height: 40px;
+}
+
+/* ------------------------------ STYLE -------------------------------*/
+.footer {
+    height: 50px;
+    padding: 5px;
+    box-shadow: 0 -4px 4px #eee;
+    color: white;
+    background-color: black;
+}
+
+input,
+button {
+    height: 30px;
 }
