@@ -1,6 +1,6 @@
 import "./style.css";
 import Parser from "./parser";
-import { currentCard, forecastCard, hourlyCard } from "./cards";
+import { currentCard, forecastCard, hourlyCard, toggleUnits } from "./cards";
 
 const urlBuilder = (baseURI, params) => {
   /*
@@ -77,14 +77,16 @@ const updateLocation = async (position) => {
     const lat = position.coords.latitude;
     const long = position.coords.longitude;
     location = `${lat},${long}`;
-  } else location = `${position.lat},${position.lon}`;
+  } else {
+    location = position;
+  }
 
   const data = await callForecastAPI(location);
   if (!(data instanceof Error)) {
     const parser = Parser(data);
     currentCard(parser.parseCurrent());
     forecastCard(parser.parseSummary());
-    hourlyCard(parser.parseHourly("2023-10-02"));
+    hourlyCard(parser.parseHourly("2023-10-03"));
   } else {
     // render error card
   }
@@ -98,23 +100,14 @@ const processForm = async (e) => {
     location = await callSearchAPI(searchBar.value);
   }
   if (!(location instanceof Error)) {
-    updateLocation(location.location);
+    updateLocation(location.location.name);
   }
 };
 
 (async () => {
   // default behavior is to use a specified location
-  // const data = await callForecastAPI("Tokyo");
-  // if (!(data instanceof Error)) {
-  //   const parser = Parser(data);
-  //   const parsedCurrentData = parser.parseCurrent();
-  //   console.log(parsedCurrentData);
-  //   const forecastData = parser.parseSummary();
-  //   console.log(forecastData);
-  //   const hourlyData = parser.parseHourly("2023-09-29");
-  //   console.log(hourlyData);
-  // }
-
+  // updateLocation("Palo Alto");
+  document.querySelector("#units").addEventListener("click", toggleUnits);
   document.querySelector("form").addEventListener("submit", processForm);
   document.querySelector("#locate").addEventListener("click", () => {
     if (navigator.geolocation) {
@@ -123,6 +116,7 @@ const processForm = async (e) => {
   });
 
   const test = {
+    location: "Palo Alto",
     datetime: "2023-09-29 16:00",
     english: { temp: 82.4, wind: 8.1, precipitation: 0, feels: 86.3 },
     humidity: 58,
@@ -132,5 +126,5 @@ const processForm = async (e) => {
     text: "Partly cloudy",
     uv: 7,
   };
-  // currentCard(test);
+  currentCard(test);
 })();

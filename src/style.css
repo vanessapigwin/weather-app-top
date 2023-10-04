@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('./fonts/Montserrat-VariableFont_wght.ttf');
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -10,7 +15,7 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Montserrat';
 }
 
 .content {
@@ -24,7 +29,7 @@ body {
     padding: 20px;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 10px;
 }
 
 .current,
@@ -35,6 +40,7 @@ body {
 form {
     display: flex;
     flex: 1; 
+    align-items: center;
 }
 
 .footer,
@@ -50,19 +56,137 @@ form {
     height: 40px;
 }
 
+/*--------FOR CURRENT CARD -----------*/
+#current {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+}
+
+.current-hero {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+    padding: 20px;
+}
+
+.current-hero > img {
+    width: 20%;
+    max-width: 100px;
+}
+
+/* ------------------------------ LAYOUT - DESKTOP -------------------------------*/
+
+@media only screen and (min-width: 600px)  {
+    .navigation {
+        min-width: 550px;
+        width: 50%;
+        align-self: center;
+    }
+}
+
 /* ------------------------------ STYLE -------------------------------*/
+body {
+    background-image: linear-gradient(#1e87b4, #45C6FD);
+    color: white;
+    font-size: calc(1rem + 1vw);
+}
+
+
+body > div.night {
+    background-color: #1C1D4B;
+}
+
+body > div.night:nth-of-type(1) {
+    background-image: linear-gradient(#0a0a2b, #1C1D4B);
+}
+
+a,
+a::after {
+    text-decoration: none;
+    color: white
+}
+
 .footer {
     height: 50px;
     padding: 5px;
-    box-shadow: 0 -4px 4px #eee;
+    border-top: solid 1px #35bffa;
     color: white;
-    background-color: black;
+}
+.footer.night {
+    border-top: solid 1px #0e0f3f;
+}
+
+form {
+    border-radius: 15px;
+    border: solid 1px white;
+    height: 40px;
 }
 
 form > input[type=search] {
-    width: 100%
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    border: none;
+    background-color: transparent;
+    border-radius: 15px 0 0 15px;
+    font-size: 1em;
+    color: white;
 }
-input,
-button {
+
+input[type=submit] {
     height: 30px;
+    border-radius: 0 15px 15px 0;
+    border: none;
+    width: 30px;
+    margin: 0 5px;
+    background-image: url(./images/search.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+input[type=search]:focus {
+    outline: none;
+}
+
+form:focus-within {
+    border-width: 2px;
+}
+
+button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 1.2em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+#locate {
+    background-image: url(./images/location.png);
+}
+
+#units {
+    background-image: url(./images/ruler.png);
+}
+
+#current > img {
+    width: 30%;
+}
+
+/*----- current card --------*/
+.current-hero > div {
+    font-size: 1.2em;
+}
+
+.current-loc {
+    font-weight: bold;
 }
