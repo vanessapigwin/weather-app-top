@@ -11,7 +11,7 @@ Live: https://vanessapigwin.github.io/weather-app-top/
 - [x] Setup form that will allow location input and will fetch weather info
 - [ ] Display info on page
 - [ ] Style page
-- [ ] Optional: add loading component
+- [x] Degrees to F
 
 ## Newly-learned concepts from Activity
 - using a default template for webpack using html-webpack-plugin

@@ -2,17 +2,9 @@ import "./style.css";
 import Parser from "./parser";
 import { currentCard, forecastCard, hourlyCard } from "./cards";
 
-const AppStatus = () => {
-  let parsedData;
-
-  const updateData = (raw) => {
-    parsedData = Parser(raw);
-  };
-  const updateLocation = (loc) => {
-    console.log(loc);
-  };
-
-  return { location, parsedData, updateData, updateLocation };
+const Status = {
+  location: "Manila",
+  parser: undefined,
 };
 
 const urlBuilder = (baseURI, params) => {
@@ -94,13 +86,16 @@ const updateLocation = async (position) => {
   } else {
     location = position;
   }
-
   const data = await callForecastAPI(location);
   if (!(data instanceof Error)) {
     const parser = Parser(data);
     currentCard(parser.parseCurrent());
     forecastCard(parser.parseSummary());
     // hourlyCard(parser.parseHourly("2023-10-04"));
+
+    // store previous data and location
+    Status.location = location;
+    Status.parser = parser;
   }
 };
 
@@ -124,10 +119,11 @@ const processForm = async (e) => {
 const toggleUnits = (e) => {
   e.target.dataset.unit =
     e.target.dataset.unit === "metric" ? "english" : "metric";
+  currentCard(Status.parser.parseCurrent());
+  forecastCard(Status.parser.parseSummary());
 };
 
 (async () => {
-  // updateLocation("Manila");
   document.querySelector("#units").addEventListener("click", toggleUnits);
   document.querySelector("form").addEventListener("submit", processForm);
   document.querySelector("#locate").addEventListener("click", () => {
@@ -136,6 +132,7 @@ const toggleUnits = (e) => {
     }
   });
 
+  updateLocation(Status.location);
   const test = [
     {
       date: "2023-10-04",
