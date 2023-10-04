@@ -1,6 +1,19 @@
 import "./style.css";
 import Parser from "./parser";
-import { currentCard, forecastCard, hourlyCard, toggleUnits } from "./cards";
+import { currentCard, forecastCard, hourlyCard } from "./cards";
+
+const AppStatus = () => {
+  let parsedData;
+
+  const updateData = (raw) => {
+    parsedData = Parser(raw);
+  };
+  const updateLocation = (loc) => {
+    console.log(loc);
+  };
+
+  return { location, parsedData, updateData, updateLocation };
+};
 
 const urlBuilder = (baseURI, params) => {
   /*
@@ -68,8 +81,9 @@ const callSearchAPI = async (search) => {
 
 const updateLocation = async (position) => {
   /*
-  Success callback for getCurrentPosition
-  input: position emitted by getCurrentPosition
+  Success callback for getCurrentPosition, takes position from getcurrentposition
+  or weatherapi search result and uses value to call the forecast api function
+  input: position emitted by getCurrentPosition or location from weatherapi
   output: none 
   */
   let location;
@@ -86,13 +100,16 @@ const updateLocation = async (position) => {
     const parser = Parser(data);
     currentCard(parser.parseCurrent());
     forecastCard(parser.parseSummary());
-    hourlyCard(parser.parseHourly("2023-10-03"));
-  } else {
-    // render error card
+    // hourlyCard(parser.parseHourly("2023-10-04"));
   }
 };
 
 const processForm = async (e) => {
+  /*
+  onclick callback for search button. takes value from form and calls
+  weatherapi search. if success, a location is found and update location 
+  method is called
+  */
   let location;
   e.preventDefault();
   const searchBar = e.target[0];
@@ -104,9 +121,13 @@ const processForm = async (e) => {
   }
 };
 
+const toggleUnits = (e) => {
+  e.target.dataset.unit =
+    e.target.dataset.unit === "metric" ? "english" : "metric";
+};
+
 (async () => {
-  // default behavior is to use a specified location
-  // updateLocation("Palo Alto");
+  // updateLocation("Manila");
   document.querySelector("#units").addEventListener("click", toggleUnits);
   document.querySelector("form").addEventListener("submit", processForm);
   document.querySelector("#locate").addEventListener("click", () => {
@@ -115,16 +136,45 @@ const processForm = async (e) => {
     }
   });
 
-  const test = {
-    location: "Palo Alto",
-    datetime: "2023-09-29 16:00",
-    english: { temp: 82.4, wind: 8.1, precipitation: 0, feels: 86.3 },
-    humidity: 58,
-    icon: "//cdn.weatherapi.com/weather/64x64/day/116.png",
-    is_day: 1,
-    metric: { temp: 28, wind: 13, precipitation: 0, feels: 30.2 },
-    text: "Partly cloudy",
-    uv: 7,
-  };
-  currentCard(test);
+  const test = [
+    {
+      date: "2023-10-04",
+      english: {
+        max_temp: 95,
+        min_temp: 66.7,
+        precipitation: 0,
+      },
+      metric: {
+        max_temp: 33.2,
+        min_temp: 16.7,
+        precipitation: 0,
+      },
+      humidity: 5,
+      icon: "//cdn.weatherapi.com/weather/64x64/day/113.png",
+      rain_chance: 0,
+      snow_chance: 0,
+      text: "Sunny",
+      uv: 6,
+    },
+    {
+      date: "2023-10-04",
+      english: {
+        max_temp: 95,
+        min_temp: 66.7,
+        precipitation: 0,
+      },
+      metric: {
+        max_temp: 33.2,
+        min_temp: 16.7,
+        precipitation: 0,
+      },
+      humidity: 5,
+      icon: "//cdn.weatherapi.com/weather/64x64/day/113.png",
+      rain_chance: 0,
+      snow_chance: 0,
+      text: "Sunny",
+      uv: 6,
+    },
+  ];
+  forecastCard(test);
 })();

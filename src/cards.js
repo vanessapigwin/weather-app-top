@@ -1,3 +1,22 @@
+const UnitMap = {
+  english: {
+    Temp: "F",
+    Feels: "F",
+    Precipitation: "in",
+    Humidity: "%",
+    "UV Index": "",
+    "Wind Speed": "mph",
+  },
+  metric: {
+    Temp: "C",
+    Feels: "C",
+    Precipitation: "mm",
+    Humidity: "%",
+    "UV Index": "",
+    "Wind Speed": "kph",
+  },
+};
+
 const customElement = (tag, att = undefined, textContent = undefined) => {
   const element = document.createElement(tag);
   if (att !== undefined)
@@ -11,20 +30,32 @@ const customElement = (tag, att = undefined, textContent = undefined) => {
   return element;
 };
 
-// todo add function to delete card contents
+const detailsCurrentCard = (title, qty, unitSys) => {
+  const div = customElement("div", { class: "current-detail" });
+  const units = UnitMap[unitSys][title];
+  const titleDiv = customElement("div", { class: "title" }, title);
+  const valueDiv = customElement("div", { class: "value" }, `${qty} ${units}`);
+  div.appendChild(titleDiv);
+  div.appendChild(valueDiv);
+  return div;
+};
+
+const clearCardArea = (container) => {
+  while (container.hasChildNodes()) container.removeChild(container.lastChild);
+};
 
 const currentCard = (data) => {
-  console.log(data);
-  const container = document.querySelector("#current");
+  const current = document.querySelector("#current");
+  clearCardArea(current);
+
   if (data.is_day !== 1) {
-    document.querySelector(".content").classList.toggle("night");
-    document.querySelector(".hourly-content").classList.toggle("night");
+    document.querySelector(".app").classList.toggle("night");
     document.querySelector(".footer").classList.toggle("night");
   }
 
   // large details
-  const imgURL = data.icon.split("64x64/")[1];
   const mainCard = customElement("div", { class: "current-hero" });
+  const imgURL = data.icon.split("64x64/")[1];
   const img = customElement("img", { src: `./icons/${imgURL}` });
   const detailsCard = customElement("div");
   const descHolder = customElement("div", { class: "current-desc" }, data.text);
@@ -38,9 +69,21 @@ const currentCard = (data) => {
 
   mainCard.appendChild(img);
   mainCard.appendChild(detailsCard);
-  container.append(mainCard);
+  current.appendChild(mainCard);
 
   // temp, feels, precip, wind, humidity, uv
+  const units = document.querySelector("#units").dataset.unit;
+  const detailsContainer = customElement("div", { class: "details-card" });
+  const detailsChildren = [
+    detailsCurrentCard("Temp", data[units].temp, units),
+    detailsCurrentCard("Feels", data[units].feels, units),
+    detailsCurrentCard("Precipitation", data[units].precipitation, units),
+    detailsCurrentCard("Humidity", data.humidity, units),
+    detailsCurrentCard("UV Index", data.uv, units),
+    detailsCurrentCard("Wind Speed", data[units].wind, units),
+  ];
+  detailsChildren.forEach((child) => detailsContainer.appendChild(child));
+  current.appendChild(detailsContainer);
 };
 
 const forecastCard = (data) => {
@@ -51,8 +94,4 @@ const hourlyCard = (data) => {
   console.log(data);
 };
 
-const toggleUnits = () => {
-  console.log("toggle units");
-};
-
-export { currentCard, forecastCard, hourlyCard, toggleUnits };
+export { currentCard, forecastCard, hourlyCard };
