@@ -22,4 +22,6 @@ Live: https://vanessapigwin.github.io/weather-app-top/
 - <a target="_blank" href="https://icons8.com/icon/7695/search">Search</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 - <a target="_blank" href="https://icons8.com/icon/7880/location">Location</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 - <a target="_blank" href="https://icons8.com/icon/11677/ruler">Ruler</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+- <a target="_blank" href="https://icons8.com/icon/17467/snow">Snow</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+- <a target="_blank" href="https://icons8.com/icon/BSwsN4gXU3te/rain">Rain</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 - weather icons: https://www.figma.com/community/file/1102960831369614781 by Roman Davydko

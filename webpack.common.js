@@ -7,6 +7,7 @@ module.exports = {
     index: "./src/index.js",
     parser: "./src/parser.js",
     cards: "./src/cards.js",
+    utils: "./src/utils.js",
   },
   plugins: [
     new HtmlWebpackPlugin({

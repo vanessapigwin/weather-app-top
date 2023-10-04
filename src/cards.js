@@ -1,34 +1,5 @@
-const UnitMap = {
-  english: {
-    Temp: "F",
-    Feels: "F",
-    Precipitation: "in",
-    Humidity: "%",
-    "UV Index": "",
-    "Wind Speed": "mph",
-  },
-  metric: {
-    Temp: "C",
-    Feels: "C",
-    Precipitation: "mm",
-    Humidity: "%",
-    "UV Index": "",
-    "Wind Speed": "kph",
-  },
-};
-
-const customElement = (tag, att = undefined, textContent = undefined) => {
-  const element = document.createElement(tag);
-  if (att !== undefined)
-    Object.entries(att).forEach((item) => {
-      const [key, value] = item;
-      const attribute = document.createAttribute(key);
-      attribute.value = value;
-      element.setAttributeNode(attribute);
-    });
-  if (textContent !== undefined) element.textContent = textContent;
-  return element;
-};
+import { format } from "date-fns";
+import { UnitMap, customElement, Status } from "./utils";
 
 const detailsCurrentCard = (title, qty, unitSys) => {
   const div = customElement("div", { class: "current-detail" });
@@ -37,6 +8,22 @@ const detailsCurrentCard = (title, qty, unitSys) => {
   const valueDiv = customElement("div", { class: "value" }, `${qty} ${units}`);
   div.appendChild(titleDiv);
   div.appendChild(valueDiv);
+  return div;
+};
+
+const oddsContent = (oddsPrecip, oddsSnow) => {
+  const div = customElement("div", { class: "odds-content" });
+  const children = [
+    customElement("img", {
+      src: new URL("./images/rain.png", import.meta.url),
+    }),
+    customElement("div", undefined, `${oddsPrecip} %`),
+    customElement("img", {
+      src: new URL("./images/snow.png", import.meta.url),
+    }),
+    customElement("div", undefined, `${oddsSnow} %`),
+  ];
+  children.forEach((e) => div.appendChild(e));
   return div;
 };
 
@@ -59,11 +46,17 @@ const currentCard = (data) => {
   const img = customElement("img", { src: `./icons/${imgURL}` });
   const detailsCard = customElement("div");
   const descHolder = customElement("div", { class: "current-desc" }, data.text);
+  const dateHolder = customElement(
+    "div",
+    { class: "current-date" },
+    format(new Date(data.datetime.split(" ")[0]), "d MMMM R")
+  );
   const locHolder = customElement(
     "div",
     { class: "current-loc" },
     data.location.toUpperCase()
   );
+  detailsCard.appendChild(dateHolder);
   detailsCard.appendChild(locHolder);
   detailsCard.appendChild(descHolder);
 
@@ -86,12 +79,43 @@ const currentCard = (data) => {
   current.appendChild(detailsContainer);
 };
 
-const forecastCard = (data) => {
+const hourlyCard = (data) => {
   console.log(data);
 };
 
-const hourlyCard = (data) => {
-  console.log(data);
+const forecastCard = (data) => {
+  const units = document.querySelector("#units").dataset.unit;
+  const forecast = document.querySelector(".forecast");
+
+  clearCardArea(forecast);
+
+  data.forEach((d) => {
+    const div = customElement("div", { class: "card" });
+    const img = customElement("img", { src: d.icon });
+    const detailDiv = customElement("div");
+    const divChildren = [
+      customElement(
+        "div",
+        { class: "title" },
+        format(new Date(d.date), "d MMMM, EEE")
+      ),
+      customElement(
+        "div",
+        undefined,
+        `${d[units].min_temp} / ${d[units].max_temp} ${UnitMap[units].max_temp}`
+      ),
+      oddsContent(d.rain_chance, d.snow_chance),
+    ];
+    divChildren.forEach((e) => detailDiv.appendChild(e));
+
+    div.appendChild(img);
+    div.appendChild(detailDiv);
+    div.dataset.date = d.date;
+    div.addEventListener("click", () => {
+      Status.selected_day = d.date;
+    });
+    forecast.appendChild(div);
+  });
 };
 
 export { currentCard, forecastCard, hourlyCard };

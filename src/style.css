@@ -8,7 +8,6 @@
     padding: 0;
     /* border: solid 1px red */
 }
-
 /* ------------------------------ LAYOUT -------------------------------*/
 
 body {
@@ -83,7 +82,7 @@ form {
 }
 
 .current-hero > img {
-    height: 90%;
+    aspect-ratio: 1/1;
     max-width: 100px;
 }
 
@@ -105,8 +104,38 @@ form {
         gap: 10px
     }
 }
-/* ------------------------------ LAYOUT - DESKTOP -------------------------------*/
 
+/*-----------FOR FORECAST CARDS -----------*/
+.forecast {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+}
+
+.forecast > div.card {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.forecast > div > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.odds-content {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.odds-content > img {
+    height: 1.2em
+}
+/* ------------------------------ LAYOUT - DESKTOP -------------------------------*/
 @media only screen and (min-width: 900px) {
     body {
         font-size: calc(1rem + 1vw);
@@ -141,13 +170,23 @@ form {
     }
 
     .current-hero {
-        gap: 40px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
     }
 
     .details-card {
         display: flex;
         flex-direction: column;
         gap: 20px;
+    }
+
+    .forecast {
+        justify-content: space-around;
     }
 }
 
@@ -163,11 +202,11 @@ body {
 }
 
 .footer.night {
-    background-color: #1C1D4B;
+    background-color: #2d2e6e;
 }
 
 .app.night {
-    background-image: linear-gradient(#11113d, #1C1D4B);
+    background-image: linear-gradient(#11113d, #2d2e6e);
 }
 
 a,
@@ -250,10 +289,26 @@ button {
 }
 
 /*----- FOR CURRENT CARD --------*/
+.details-card,
 .current-hero > div {
     font-size: 1.2em;
 }
 
 .current-loc {
     font-weight: bold;
+    font-size: 1.5em;
+}
+
+/*--------FORECAST CARDS --------*/
+
+.forecast > div.card {
+    font-size: 1.2rem;
+    border: solid 1px white;
+    border-radius: 10px;
+}
+
+.forecast > div.card:hover {
+    scale: 1.02;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
 }

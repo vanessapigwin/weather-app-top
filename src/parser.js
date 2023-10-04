@@ -35,8 +35,6 @@ const Parser = (rawData) => {
         snow_chance: dayData.day.daily_chance_of_snow,
         icon: dayData.day.condition.icon,
         text: dayData.day.condition.text,
-        humidity: dayData.day.avghumidity,
-        uv: dayData.day.uv,
         metric: {
           max_temp: dayData.day.maxtemp_c,
           min_temp: dayData.day.mintemp_c,
