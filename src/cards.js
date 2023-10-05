@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { UnitMap, customElement, Status } from "./utils";
+import hourlyCard from "./appchart";
 
 const detailsCurrentCard = (title, qty, unitSys) => {
   const div = customElement("div", { class: "current-detail" });
@@ -79,10 +80,6 @@ const currentCard = (data) => {
   current.appendChild(detailsContainer);
 };
 
-const hourlyCard = (data) => {
-  console.log(data);
-};
-
 const forecastCard = (data) => {
   const units = document.querySelector("#units").dataset.unit;
   const forecast = document.querySelector(".forecast");
@@ -113,9 +110,10 @@ const forecastCard = (data) => {
     div.dataset.date = d.date;
     div.addEventListener("click", () => {
       Status.selected_day = d.date;
+      hourlyCard(Status.parser.parseHourly(Status.selected_day));
     });
     forecast.appendChild(div);
   });
 };
 
-export { currentCard, forecastCard, hourlyCard };
+export { currentCard, forecastCard };

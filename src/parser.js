@@ -57,11 +57,11 @@ const Parser = (rawData) => {
         rain_chance: hour.chance_of_rain,
         snow_chance: hour.chance_of_snow,
         metric: {
-          temp_c: hour.temp_c,
+          temp: hour.temp_c,
           precipitation: hour.precip_mm,
         },
         english: {
-          temp_f: hour.temp_f,
+          temp: hour.temp_f,
           precipitation: hour.precip_in,
         },
       };

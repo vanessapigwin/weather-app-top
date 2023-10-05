@@ -1,7 +1,8 @@
 import "./style.css";
 import Parser from "./parser";
-import { currentCard, forecastCard, hourlyCard } from "./cards";
+import { currentCard, forecastCard } from "./cards";
 import { Status } from "./utils";
+import hourlyCard from "./appchart";
 
 const urlBuilder = (baseURI, params) => {
   /*
@@ -75,7 +76,8 @@ const updateLocation = async (position) => {
   output: none 
   */
   let location;
-  if (position instanceof Geolocation) {
+  console.log(position);
+  if (position instanceof GeolocationPosition) {
     const lat = position.coords.latitude;
     const long = position.coords.longitude;
     location = `${lat},${long}`;
@@ -131,41 +133,4 @@ const toggleUnits = (e) => {
   });
 
   updateLocation(Status.location);
-  // const test = [
-  //   {
-  //     date: "2023-10-04",
-  //     english: {
-  //       max_temp: 95,
-  //       min_temp: 66.7,
-  //       precipitation: 0,
-  //     },
-  //     metric: {
-  //       max_temp: 33.2,
-  //       min_temp: 16.7,
-  //       precipitation: 0,
-  //     },
-  //     icon: "//cdn.weatherapi.com/weather/64x64/day/113.png",
-  //     rain_chance: 0,
-  //     snow_chance: 0,
-  //     text: "Sunny",
-  //   },
-  //   {
-  //     date: "2023-10-04",
-  //     english: {
-  //       max_temp: 95,
-  //       min_temp: 66.7,
-  //       precipitation: 0,
-  //     },
-  //     metric: {
-  //       max_temp: 33.2,
-  //       min_temp: 16.7,
-  //       precipitation: 0,
-  //     },
-  //     icon: "//cdn.weatherapi.com/weather/64x64/day/113.png",
-  //     rain_chance: 0,
-  //     snow_chance: 0,
-  //     text: "Sunny",
-  //   },
-  // ];
-  // forecastCard(test);
 })();

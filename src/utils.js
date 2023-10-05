@@ -26,7 +26,7 @@ const UnitMap = {
 };
 
 const Status = {
-  location: "San Franciso",
+  location: "Pasig, Metro Manila",
   parser: undefined,
   selected_day: undefined,
   fetch_time: undefined,
