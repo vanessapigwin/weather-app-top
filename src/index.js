@@ -132,5 +132,5 @@ const toggleUnits = (e) => {
     }
   });
 
-  updateLocation(Status.location);
+  await updateLocation(Status.location);
 })();

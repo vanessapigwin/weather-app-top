@@ -9,8 +9,8 @@ Live: https://vanessapigwin.github.io/weather-app-top/
 - [x] Write functions that call API, must take location and return data
 - [x] Write functions that process json and return object with data required for app
 - [x] Setup form that will allow location input and will fetch weather info
-- [ ] Display info on page
-- [ ] Style page
+- [x] Display info on page
+- [x] Style page
 - [x] Degrees to F
 
 ## Newly-learned concepts from Activity
