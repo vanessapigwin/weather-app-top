@@ -4,23 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
-<script defer src="runtime.bundle.js"></script><script defer src="index.bundle.js"></script><script defer src="parser.bundle.js"></script><script defer src="cards.bundle.js"></script></head>
+<script defer src="runtime.bundle.js"></script><script defer src="index.bundle.js"></script><script defer src="parser.bundle.js"></script><script defer src="cards.bundle.js"></script><script defer src="utils.bundle.js"></script><script defer src="appchart.bundle.js"></script></head>
 <body>
-    <div class="content">
+    <div class="app">
         <div class="navigation">
             <form>
                 <input type="search" name="location" id="location" pattern="^^[\w\.][\w\d\,].+" required>
                 <input type="submit" value="" id="search">
             </form>
             <button id="locate"></button>
-            <button id="units"></button>
+            <button data-unit="metric" id="units"></button>
         </div>
-        <div class="current" id="current"></div>
-        <div class="forecast">Forecast Area</div>
-    </div>
-    <div class="hourly-content">
-        <div class="hourly-precipitation">Precipitation</div>
-        <div class="hourly-temperature">Temperature</div>
+        <div class="content">
+            <div class="current" id="current">
+                <div class="main-card"></div>
+            </div>
+            <div class="forecast">Forecast Area</div>
+        </div>
+        <div class="hourly-content">
+            <div class="hourly-temperature">
+                <canvas id="temp-chart"></canvas>
+            </div>
+            <div class="hourly-precipitation">
+                <canvas id="precip-chart"></canvas>
+            </div>
+        </div>
     </div>
     <div class="footer">
         <a href="https://github.com/vanessapigwin/weather-app-top">
