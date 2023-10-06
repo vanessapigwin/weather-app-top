@@ -38,7 +38,7 @@ const callForecastAPI = async (location) => {
   };
   try {
     const url = urlBuilder(baseURI, params);
-    const request = await fetch(url);
+    const request = await fetch(url, { mode: "cors" });
     if (request.status === 200) {
       data = await request.json();
     } else throw Error(request.status);
@@ -58,7 +58,7 @@ const callSearchAPI = async (search) => {
   const baseURI = "http://api.weatherapi.com/v1/forecast.json";
   try {
     const url = urlBuilder(baseURI, { q: search });
-    const request = await fetch(url);
+    const request = await fetch(url, { mode: "cors" });
     if (request.status === 200) {
       data = await request.json();
     } else throw Error(request.status);
