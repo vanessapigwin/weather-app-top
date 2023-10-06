@@ -76,7 +76,6 @@ const updateLocation = async (position) => {
   output: none 
   */
   let location;
-  console.log(position);
   if (position instanceof GeolocationPosition) {
     const lat = position.coords.latitude;
     const long = position.coords.longitude;
@@ -121,6 +120,7 @@ const toggleUnits = (e) => {
     e.target.dataset.unit === "metric" ? "english" : "metric";
   currentCard(Status.parser.parseCurrent());
   forecastCard(Status.parser.parseSummary());
+  hourlyCard(Status.parser.parseHourly(Status.selected_day));
 };
 
 (async () => {

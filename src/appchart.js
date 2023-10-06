@@ -64,13 +64,13 @@ const precipChartUpdate = (hours, amtPrecipitation, rainChance) => {
     {
       label: UnitMap[units].Precipitation,
       data: amtPrecipitation,
-      hoverOffset: 3,
+      backgroundColor: rainChance.map(
+        (odds) => `rgba(174, 236, 239, ${odds / 100})`
+      ),
     },
   ];
   removeData(rainChart);
   addChartData(rainChart, labels, datasets);
-  // to do rain chance
-  console.log(rainChance);
 };
 
 const tempChartUpdate = (hours, temp, units) => {

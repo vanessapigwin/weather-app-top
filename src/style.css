@@ -207,6 +207,10 @@ form {
     .forecast {
         justify-content: space-around;
     }
+
+    .card {
+        flex: 1
+    }
 }
 
 /* ------------------------------ STYLE -------------------------------*/
