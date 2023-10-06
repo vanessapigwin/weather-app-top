@@ -31,7 +31,7 @@ const callForecastAPI = async (location) => {
   output: json if request is accepted or error
   */
   let data;
-  const baseURI = "http://api.weatherapi.com/v1/forecast.json";
+  const baseURI = "https://api.weatherapi.com/v1/forecast.json";
   const params = {
     q: location,
     days: 3,
@@ -55,7 +55,7 @@ const callSearchAPI = async (search) => {
   output: json if request is accepted or error
   */
   let data;
-  const baseURI = "http://api.weatherapi.com/v1/forecast.json";
+  const baseURI = "https://api.weatherapi.com/v1/forecast.json";
   try {
     const url = urlBuilder(baseURI, { q: search });
     const request = await fetch(url, { mode: "cors" });
