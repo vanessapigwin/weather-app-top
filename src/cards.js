@@ -36,9 +36,12 @@ const currentCard = (data) => {
   const current = document.querySelector("#current");
   clearCardArea(current);
 
-  if (data.is_day !== 1) {
-    document.querySelector(".app").classList.toggle("night");
-    document.querySelector(".footer").classList.toggle("night");
+  if (data.is_day === 1) {
+    document.querySelector(".app").classList.remove("night");
+    document.querySelector(".footer").classList.remove("night");
+  } else {
+    document.querySelector(".app").classList.add("night");
+    document.querySelector(".footer").classList.add("night");
   }
 
   // large details

@@ -86,12 +86,13 @@ const updateLocation = async (position) => {
   const data = await callForecastAPI(location);
   if (!(data instanceof Error)) {
     const parser = Parser(data);
-    currentCard(parser.parseCurrent());
-    forecastCard(parser.parseSummary());
-
-    // store previous data and location
     Status.location = location;
     Status.parser = parser;
+    currentCard(Status.parser.parseCurrent());
+    forecastCard(Status.parser.parseSummary());
+
+    // store previous data and location
+
     [Status.selected_day] = data.current.last_updated.split(" ");
 
     hourlyCard(parser.parseHourly(Status.selected_day));
