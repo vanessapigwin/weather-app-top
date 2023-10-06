@@ -39,9 +39,13 @@ const currentCard = (data) => {
   if (data.is_day === 1) {
     document.querySelector(".app").classList.remove("night");
     document.querySelector(".footer").classList.remove("night");
+    document.querySelector("#locate").classList.remove("night");
+    document.querySelector("#units").classList.remove("night");
   } else {
     document.querySelector(".app").classList.add("night");
     document.querySelector(".footer").classList.add("night");
+    document.querySelector("#locate").classList.add("night");
+    document.querySelector("#units").classList.add("night");
   }
 
   // large details
